@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Car Tec — Luxury Showroom</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .gold-glow { box-shadow: 0 0 25px rgba(212,175,55,.35); }
+    .card:hover img { transform: scale(1.05); }
+    .card img { transition: transform .4s ease; }
+  </style>
+</head>
+<body class="bg-black text-white">
+
+  <!-- HERO -->
+  <section class="min-h-[70vh] flex flex-col items-center justify-center text-center px-4">
+    <h1 class="text-4xl md:text-6xl font-extrabold text-yellow-400 drop-shadow">
+      Find Your Dream Car
+    </h1>
+    <p class="mt-4 text-gray-300 text-lg">
+      Trusted Pre-Owned Cars | Best Deals | Easy Contact
+    </p>
+    <a href="#cars" class="mt-8 px-6 py-3 rounded-full bg-yellow-400 text-black font-bold gold-glow">
+      Explore Cars
+    </a>
+  </section>
+
+  <!-- CARS GRID -->
+  <section id="cars" class="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+    <!-- Cards will auto-load here later -->
+    
+    <!-- Sample Card -->
+    <div class="card bg-gray-900 rounded-xl p-3 border border-yellow-400/30 gold-glow">
+      <img src="https://images.unsplash.com/photo-1549921296-3fd62f6e57e5?q=80&w=1200" class="w-full h-48 object-cover rounded-lg"/>
+      <h3 class="mt-3 text-xl font-bold text-yellow-400">Sample Luxury Car</h3>
+      <p class="text-gray-300">₹ 12,50,000 • Petrol • 2021</p>
+
+      <div class="flex gap-2 mt-3">
+        <a target="_blank"
+           href="https://wa.me/9527006593?text=Hi, I am interested in Sample Luxury Car"
+           class="flex-1 bg-green-500 text-black text-center font-bold py-2 rounded">
+          WhatsApp
+        </a>
+        <a href="tel:9527006593"
+           class="flex-1 bg-yellow-400 text-black text-center font-bold py-2 rounded">
+          Call
+        </a>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- FLOATING WHATSAPP -->
+  <a href="https://wa.me/9527006593" target="_blank"
+     class="fixed bottom-4 right-4 bg-green-500 text-black px-4 py-3 rounded-full font-bold gold-glow">
+    WhatsApp
+  </a>
+
+</body>
+</html>
