@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Car Tec Showroom</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white">
+
+<header class="p-4 text-center text-3xl font-bold text-yellow-400">
+  Car Tec Showroom
+</header>
+
+<div id="cars" class="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+
+<script>
+const sheetId = "1zufeYzIw7mniERHlKTzwMsgVakngr_C8ty-6YJTT1hY";
+const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
+
+function driveImg(link){
+  if(!link) return "";
+  const m = link.match(/\/d\/(.*?)\//);
+  return m ? `https://drive.google.com/uc?export=view&id=${m[1]}` : link;
+}
+
+fetch(url)
+.then(res => res.text())
+.then(txt => {
+  const json = JSON.parse(txt.substr(47).slice(0,-2));
+  const rows = json.table.rows;
+
+  rows.forEach(r => {
+    const data = r.c.map(c => c ? c.v : "");
+    const name = data[1];
+    if(!name) return;
+
+    const photos = data.slice(-12).filter(Boolean);
+
+    const card = document.createElement("div");
+    card.className = "bg-gray-900 p-4 rounded-lg";
+
+    card.innerHTML = `
+      <h2 class="text-xl font-bold text-yellow-400">${name}</h2>
+
+      <div class="grid grid-cols-2 gap-2 mt-2">
+        ${photos.map(p=>`<img src="${driveImg(p)}" class="h-32 w-full object-cover rounded">`).join("")}
+      </div>
+
+      <a target="_blank" href="https://wa.me/9527006593?text=Hi, I am interested in ${encodeURIComponent(name)}"
+         class="block mt-3 bg-green-500 text-black text-center font-bold p-2 rounded">
+        WhatsApp Inquiry
+      </a>
+    `;
+
+    document.getElementById("cars").appendChild(card);
+  });
+});
+</script>
+
+</body>
+</html>
