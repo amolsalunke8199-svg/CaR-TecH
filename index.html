@@ -1,154 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
-  <title>Car Tec Showroom</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Car Tec</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #000;
-      color: #fff;
-    }
-
-    header {
-      text-align: center;
-      padding: 40px 20px;
-      border-bottom: 1px solid gold;
-    }
-
-    header h1 {
-      color: gold;
-      font-size: 2.5rem;
-      margin: 0;
-    }
-
-    header p {
-      color: #ccc;
-      margin-top: 10px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-      padding: 30px;
-      max-width: 1200px;
-      margin: auto;
-    }
-
-    .card {
-      border: 1px solid gold;
-      border-radius: 15px;
-      overflow: hidden;
-      background: #111;
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
-      transition: transform 0.3s;
-    }
-
-    .card:hover {
-      transform: scale(1.03);
-    }
-
-    .card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-
-    .card .info {
-      padding: 15px;
-    }
-
-    .card h3 {
-      margin: 0;
-      color: gold;
-    }
-
-    .card p {
-      color: #ccc;
-      font-size: 0.9rem;
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 10px 15px;
-      border-radius: 20px;
-      background: gold;
-      color: black;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .whatsapp {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #25D366;
-      color: white;
-      padding: 15px 20px;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: bold;
-      box-shadow: 0 0 15px rgba(0,0,0,0.5);
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      color: #777;
-      font-size: 0.9rem;
-      border-top: 1px solid #222;
-    }
+    body { background:#000; color:#fff; font-family: Arial; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:15px; padding:20px; }
+    .card { border:1px solid gold; padding:10px; border-radius:10px; }
+    img { width:100%; height:180px; object-fit:cover; border-radius:8px; }
+    h3 { color:gold; margin:5px 0; }
+    .btn { display:block; background:gold; color:black; text-align:center; padding:8px; margin-top:8px; text-decoration:none; border-radius:5px; }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>Find Your Dream Car</h1>
-  <p>Trusted Pre-Owned Cars | Best Deals | Easy Contact</p>
-</header>
+<h1 style="text-align:center;color:gold;">Car Tec</h1>
 
-<section class="grid">
+<div id="cars" class="grid"></div>
 
-  <div class="card">
-    <img src="https://images.unsplash.com/photo-1549924231-f129b911e442">
-    <div class="info">
-      <h3>BMW 5 Series</h3>
-      <p>Diesel • Automatic • 2021</p>
-      <a class="btn" href="#">View Details</a>
-    </div>
-  </div>
+<script>
+const sheetId = "1zufeYzIw7mniERHlKTzwMsgVakngr_C8ty-6YJTT1hY";
+const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
 
-  <div class="card">
-    <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e">
-    <div class="info">
-      <h3>Audi A6</h3>
-      <p>Petrol • Automatic • 2020</p>
-      <a class="btn" href="#">View Details</a>
-    </div>
-  </div>
+function driveImg(link){
+  if(!link) return "";
+  const m = link.match(/\/d\/(.*?)\//);
+  return m ? `https://drive.google.com/uc?export=view&id=${m[1]}` : link;
+}
 
-  <div class="card">
-    <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70">
-    <div class="info">
-      <h3>Mercedes C Class</h3>
-      <p>Diesel • Automatic • 2019</p>
-      <a class="btn" href="#">View Details</a>
-    </div>
-  </div>
+fetch(url)
+.then(res => res.text())
+.then(txt => {
+  const json = JSON.parse(txt.substr(47).slice(0,-2));
+  const rows = json.table.rows;
 
-</section>
+  rows.forEach(r => {
+    const data = r.c.map(c => c ? c.v : "");
+    const name = data[1]; 
+    const img = driveImg(data[data.length-1]);
+    if(!name) return;
 
-<a class="whatsapp" href="https://wa.me/919527006593" target="_blank">
-  WhatsApp
-</a>
+    const card = document.createElement("div");
+    card.className = "card";
 
-<footer>
-  © 2026 Car Tec Showroom
-</footer>
+    card.innerHTML = `
+      <img src="${img}">
+      <h3>${name}</h3>
+      <a class="btn" target="_blank" href="https://wa.me/919527006593?text=I am interested in ${name}">
+        WhatsApp
+      </a>
+    `;
+
+    document.getElementById("cars").appendChild(card);
+  });
+});
+</script>
 
 </body>
 </html>
