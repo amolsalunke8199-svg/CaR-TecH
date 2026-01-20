@@ -37,8 +37,9 @@ fetch(url)
 
   rows.forEach(r => {
     const data = r.c.map(c => c ? c.v : "");
-    const name = data[1];
-    const img = driveImg(data[data.length - 1]);
+
+    const name = data[1];      // car name
+    const img  = driveImg(data[9]); // Column J = index 9
 
     if(!name) return;
 
